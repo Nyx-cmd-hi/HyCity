@@ -1,49 +1,124 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Halcyon City Starter Generator</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at top, #1e293b, #020617);
-    color: #e2e8f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }.container { background: rgba(15, 23, 42, 0.9); padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); width: 420px; text-align: center; }
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  color: #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-h1 { margin-bottom: 10px; font-weight: 600; }
+.container {
+  background: rgba(15, 23, 42, 0.95);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  width: 420px;
+  text-align: center;
+}
 
-p { font-size: 14px; opacity: 0.7; }
+h1 {
+  margin-bottom: 10px;
+}
 
-select { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-top: 15px; font-size: 16px; background: #0f172a; color: #e2e8f0; }
+p {
+  opacity: 0.7;
+  font-size: 14px;
+}
 
-button { margin-top: 20px; padding: 12px 20px; border-radius: 12px; border: none; font-size: 16px; font-weight: 600; background: linear-gradient(135deg, #38bdf8, #818cf8); color: black; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 15px;
+  font-size: 16px;
+  background: #0f172a;
+  color: #e2e8f0;
+}
 
-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56,189,248,0.4); }
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  color: black;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-.results { margin-top: 25px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(56,189,248,0.4);
+}
 
-.card { background: #020617; border-radius: 16px; padding: 15px; width: 110px; cursor: pointer; transition: transform 0.2s, border 0.2s; border: 2px solid transparent; }
+.results {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
 
-.card:hover { transform: scale(1.05); }
+.card {
+  background: #020617;
+  border-radius: 16px;
+  padding: 12px;
+  width: 110px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
 
-.card.selected { border: 2px solid #38bdf8; }
+.card:hover {
+  transform: scale(1.05);
+}
 
-.card img { width: 72px; height: 72px; }
+.card img {
+  width: 72px;
+}
 
-.golden { margin-top: 20px; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, gold, orange); color: black; font-weight: 600; animation: glow 1.5s infinite alternate; }
+.card.selected {
+  border: 2px solid #38bdf8;
+}
 
-@keyframes glow { from { box-shadow: 0 0 10px gold; } to { box-shadow: 0 0 25px orange; } } </style>
+.golden {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, gold, orange);
+  color: black;
+  font-weight: 600;
+  animation: glow 1.5s infinite alternate;
+}
 
+@keyframes glow {
+  from { box-shadow: 0 0 10px gold; }
+  to { box-shadow: 0 0 25px orange; }
+}
+</style>
 </head>
-<body><div class="container">
+
+<body>
+
+<div class="container" id="container">
   <h1>🌙 Halcyon City</h1>
-  <p>Choose your path. Let chance decide the rest.</p>  <select id="occupation">
+  <p>Choose your path. Let chance decide the rest.</p>
+
+  <select id="occupation">
     <option value="barista">Barista</option>
     <option value="maintenance">Maintenance Worker</option>
     <option value="delivery">Delivery Runner</option>
@@ -54,11 +129,15 @@ button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56,189,2
     <option value="electric">Electric Technician</option>
     <option value="fisher">Waterfront Worker</option>
     <option value="night">Night Shift Worker</option>
-  </select><button onclick="generate()">🎲 Generate</button>
+  </select>
+
+  <button onclick="generate()">🎲 Generate</button>
 
   <div id="golden"></div>
   <div class="results" id="results"></div>
-</div><script>
+</div>
+
+<script>
 const pools = {
   barista: ["eevee","minccino","espurr","milcery","skitty","buneary","pidove","fidough","smoliv","swirlix","togepi","cutiefly"],
   maintenance: ["magnemite","klink","drilbur","roggenrola","sandile","timburr","trubbish","varoom","diglett","bronzor","orthworm","geodude"],
@@ -72,9 +151,35 @@ const pools = {
   night: ["zubat","purrloin","nickit","murkrow","gastly","houndour","impidimp","sableye","drifloon","shroodle","stunky","noibat"]
 };
 
+const flavorTexts = {
+  eevee: "It stayed close, even when there was no reason to.",
+  ralts: "It noticed you before you noticed it.",
+  togedemaru: "The lights flickered when it arrived.",
+  zubat: "You thought it was following someone else at first.",
+  mimikyu: "It waited until you were alone to approach.",
+  yamper: "It decided you were worth following.",
+  abra: "It could have left at any moment. It didn’t.",
+  gastly: "You felt it before you saw it."
+};
+
+const genericLines = [
+  "It chose you quietly.",
+  "It stayed, even when it didn’t have to.",
+  "You’re not sure when it decided to follow.",
+  "It seems to understand you already.",
+  "It feels like this wasn’t random.",
+  "It watches you more than you expected.",
+  "There’s something familiar about it."
+];
+
+function getFlavor(name) {
+  return flavorTexts[name] || genericLines[Math.floor(Math.random() * genericLines.length)];
+}
+
 function generate() {
   const occ = document.getElementById("occupation").value;
   const pool = [...pools[occ]];
+
   const resultsDiv = document.getElementById("results");
   const goldenDiv = document.getElementById("golden");
 
@@ -101,13 +206,53 @@ function generate() {
     card.appendChild(img);
     card.appendChild(label);
 
-    card.onclick = () => {
-      document.querySelectorAll(".card").forEach(c => c.classList.remove("selected"));
-      card.classList.add("selected");
-    };
+    card.onclick = () => showFinalSelection(name);
 
     resultsDiv.appendChild(card);
   }
 }
-</script></body>
+
+function showFinalSelection(name) {
+  const occupation = document.getElementById("occupation").value;
+  const container = document.getElementById("container");
+
+  const displayName = name.charAt(0).toUpperCase() + name.slice(1);
+  const flavor = getFlavor(name);
+
+  container.innerHTML = `
+    <h1>🌙 Your Partner</h1>
+
+    <img src="https://img.pokemondb.net/sprites/home/normal/${name}.png" width="140">
+
+    <h2>${displayName}</h2>
+    <p>${occupation}</p>
+
+    <p style="margin-top:15px; font-style: italic;">"${flavor}"</p>
+
+    <button onclick="copyCard('${displayName}', '${occupation}', \`${flavor}\`)">
+      📋 Copy Trainer Card
+    </button>
+
+    <br><br>
+
+    <button onclick="location.reload()">🔄 Start Again</button>
+  `;
+}
+
+function copyCard(name, occupation, flavor) {
+  const text = `
+🌙 Halcyon City Trainer
+
+Occupation: ${occupation}
+Partner: ${name}
+
+"${flavor}"
+`;
+
+  navigator.clipboard.writeText(text);
+  alert("Copied!");
+}
+</script>
+
+</body>
 </html>
