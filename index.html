@@ -4,9 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halcyon City Starter Generator</title>
+    <style>
+        body { background-color: #f4f4f4; font-family: Arial, sans-serif; }
+        .generator { margin: 20px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        button { padding: 10px 15px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Halcyon City!</h1>
-    <p>This is the starter generator for deploying to GitHub Pages.</p>
+    <div class="generator">
+        <h1>Halcyon City Starter Generator</h1>
+        <button id="generateBtn">Generate Character</button>
+        <div id="characterOutput"></div>
+    </div>
+    <script>
+        const occupationPools = ['barista', 'maintenance', 'delivery', 'student', 'gardener', 'caretaker', 'artist', 'electric', 'fisher', 'night shift worker'];
+
+        document.getElementById('generateBtn').addEventListener('click', generateCharacter);
+
+        function generateCharacter() {
+            const randomOccupation = occupationPools[Math.floor(Math.random() * occupationPools.length)];
+            document.getElementById('characterOutput').innerHTML = `Character Occupation: <strong>${randomOccupation}</strong>`;
+        }
+    </script>
 </body>
 </html>
